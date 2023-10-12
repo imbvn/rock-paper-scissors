@@ -1,6 +1,8 @@
 let playerScore = 0;
 let computerScore = 0;
 let roundWinner = ' ';
+let playerSelection;
+let computerSelection;
 
 const options = ['rock', 'paper', 'scissors'];
 
@@ -27,20 +29,25 @@ function playRound(playerSelection, computerSelection) {
 
 function updateScore() {
     if (roundWinner == 'Tie') {
-        return "It's a Tie!";
+        return `It's a Tie! Current Score: Player - ${playerScore} / Computer - ${computerScore}`;
     }
     else if (roundWinner == 'Player') {
-        return `You Win! ${playerSelection} beats ${computerSelection}!`
+        playerScore++;
+        return `You Win! ${playerSelection} beats ${computerSelection}! Current Score: Player - ${playerScore} / Computer - ${computerScore}`
     }
     else {
-        return `You Lost! ${computerSelection} beats ${playerSelection}!`
+        computerScore++;
+        return `You Lost! ${computerSelection} beats ${playerSelection}! Current Score: Player - ${playerScore} / Computer - ${computerScore}`
     }
 }
 
+function game() {
+    for (let i = 0; i < 5; i++) {
+        playerSelection = prompt("Rock, Paper, or Scissors?").toLowerCase();
+        computerSelection = getComputerChoice();
+        playRound(playerSelection, computerSelection);
+        console.log(updateScore())
+    }
+}
 
-const playerSelection = 'rock';
-const computerSelection = getComputerChoice();
-
-playRound(playerSelection, computerSelection);
-
-console.log(roundWinner);
+game();
