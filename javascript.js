@@ -4,10 +4,6 @@ let roundWinner = ' ';
 let playerSelection;
 let computerSelection;
 
-const rockbtn = document.getElementById('rockbtn');
-const paperbtn = document.getElementById('paperbtn');
-const scissorsbtn = document.getElementById('scissorsbtn');
-
 const options = ['rock', 'paper', 'scissors'];
 
 function getComputerChoice() {
@@ -17,31 +13,41 @@ function getComputerChoice() {
 
 function playRound(playerSelection, computerSelection) {
     if (playerSelection === computerSelection) {
-        roundWinner = 'tie';
+        roundWinner = 'Tie';
     }
     else if (
         (playerSelection == 'rock' && computerSelection == 'scissors') ||
         (playerSelection == 'scissors' && computerSelection == 'paper') ||
         (playerSelection == 'paper' && computerSelection == 'rock')
     ) {
-        roundWinner = 'player';
+        roundWinner = 'Player';
     }
     else {
-        roundWinner = 'computer';
+        roundWinner = 'Computer';
     }
 }
 
 function updateScore() {
-    if (roundWinner == 'tie') {
-        return `it's a tie! current score: player - ${playerScore} / computer - ${computerScore}`;
+    if (roundWinner == 'Tie') {
+        return `It's a Tie! Current Score: Player - ${playerScore} / Computer - ${computerScore}`;
     }
-    else if (roundWinner == 'player') {
+    else if (roundWinner == 'Player') {
         playerScore++;
-        return `you win! ${playerSelection} beats ${computerSelection}! current Score: player - ${playerScore} / computer - ${computerScore}`
+        return `You Win! ${playerSelection} beats ${computerSelection}! Current Score: Player - ${playerScore} / Computer - ${computerScore}`
     }
     else {
         computerScore++;
-        return `you lost! ${computerSelection} beats ${playerSelection}! current score: player - ${playerScore} / computer - ${computerScore}`
+        return `You Lost! ${computerSelection} beats ${playerSelection}! Current Score: Player - ${playerScore} / Computer - ${computerScore}`
     }
 }
 
+function game() {
+    for (let i = 0; i < 5; i++) {
+        playerSelection = prompt("Rock, Paper, or Scissors?").toLowerCase();
+        computerSelection = getComputerChoice();
+        playRound(playerSelection, computerSelection);
+        console.log(updateScore())
+    }
+}
+
+game();
