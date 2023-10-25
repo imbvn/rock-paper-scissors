@@ -1,53 +1,89 @@
 let playerScore = 0;
 let computerScore = 0;
-let roundWinner = ' ';
-let playerSelection;
-let computerSelection;
+let result = '';
 
-const options = ['rock', 'paper', 'scissors'];
+const rockbtn = document.getElementById('rockbtn');
+const paperbtn = document.getElementById('paperbtn');
+const scissorsbtn = document.getElementById('scissorsbtn');
+const restartbtn = document.getElementById('restartbtn');
 
 function getComputerChoice() {
+    const options = ['rock', 'paper', 'scissors'];
     const randomChoice = options[Math.floor(Math.random() * options.length)];
     return randomChoice;
 }
 
-function playRound(playerSelection, computerSelection) {
+function disableButtons() {
+    rockbtn.disabled = true;
+    paperbtn.disabled = true;
+    scissorsbtn.disabled = true;
+    restartbtn.disabled = false;
+}
+
+function restartGame() {
+    rockbtn.disabled = false;
+    paperbtn.disabled = false;
+    scissorsbtn.disabled = false;
+    restartbtn.disabled = true;
+
+    playerScore = 0;
+    computerScore = 0;
+    result = '';
+
+    document.getElementById('result').innerHTML = result;
+}
+
+function playRound(playerSelection) {
+    let computerSelection = getComputerChoice();
+    
+
     if (playerSelection === computerSelection) {
-        roundWinner = 'Tie';
+        result = `it\'s a tie!<br><br>player - ${playerScore}<br><br>computer - ${computerScore}`;
     }
     else if (
         (playerSelection == 'rock' && computerSelection == 'scissors') ||
         (playerSelection == 'scissors' && computerSelection == 'paper') ||
         (playerSelection == 'paper' && computerSelection == 'rock')
     ) {
-        roundWinner = 'Player';
+        playerScore += 1
+        result = `you won! ${playerSelection} beats ${computerSelection}!<br><br>player - ${playerScore}<br><br>computer - ${computerScore}`;
+
+        if (playerScore == 5) {
+            result += '<br><br>you won the game! press the restart button to play again!'
+            disableButtons();
+        }
     }
     else {
-        roundWinner = 'Computer';
+        computerScore += 1
+        result = `you lost! ${computerSelection} beats ${playerSelection}!<br><br>player - ${playerScore}<br><br>computer - ${computerScore}`;
+
+        if(computerScore == 5) {
+            result += '<br><br>you lost the game! press the restart button to play again!';
+            disableButtons();
+        }
     }
+
+    document.getElementById('result').innerHTML = result;
+
+    return;
 }
 
-function updateScore() {
-    if (roundWinner == 'Tie') {
-        return `It's a Tie! Current Score: Player - ${playerScore} / Computer - ${computerScore}`;
-    }
-    else if (roundWinner == 'Player') {
-        playerScore++;
-        return `You Win! ${playerSelection} beats ${computerSelection}! Current Score: Player - ${playerScore} / Computer - ${computerScore}`
-    }
-    else {
-        computerScore++;
-        return `You Lost! ${computerSelection} beats ${playerSelection}! Current Score: Player - ${playerScore} / Computer - ${computerScore}`
-    }
-}
+rockbtn.addEventListener('click', () => playRound('rock'));
+paperbtn.addEventListener('click', () => playRound('paper'));
+scissorsbtn.addEventListener('click', () => playRound('scissors'));
 
-function game() {
-    for (let i = 0; i < 5; i++) {
-        playerSelection = prompt("Rock, Paper, or Scissors?").toLowerCase();
-        computerSelection = getComputerChoice();
-        playRound(playerSelection, computerSelection);
-        console.log(updateScore())
-    }
-}
+restartbtn.addEventListener('click', () => restartGame());
 
-game();
+//function updateScore() {
+//    if (roundWinner == 'tie') {
+//        return `it's a tie! current score: player - ${playerScore} / computer - ${computerScore}`;
+//    }
+//    else if (roundWinner == 'player') {
+//        playerScore++;
+//        return `you win! ${playerSelection} beats ${computerSelection}! current Score: player - ${playerScore} / computer - ${computerScore}`
+//    }
+//    else {
+//        computerScore++;
+//        return `you lost! ${computerSelection} beats ${playerSelection}! current score: player - ${playerScore} / computer - ${computerScore}`
+//    }
+//}
